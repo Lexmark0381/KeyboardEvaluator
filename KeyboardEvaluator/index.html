@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Keyboard Evaluator</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -10,14 +11,20 @@
 </head>
 <script>
     window.onload = function () {
-        var writtenText = document.getAnonymousElementById('writtenText');
-        writtenText.onkeyup = function () {
-            console.log(writtenText.text());
-        }
+        history = []
+
+        var socket = io();
+        $('#writtenText').bind('input propertychange', function() {
+//            console.log(this.value);
+            history.push(this.value);
+        });
+
+
+
     }
 </script>
 <body>
-<div class="container">
+<div class="container" style="padding-top: 50px;">
     <div class="row">
         <h1 class="mx-auto">Keyboard Evaluator</h1>
     </div>

@@ -1,10 +1,39 @@
-var io = require('socket.io')(3001);
-var text = "";
+k
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-var express = require('express')
-var app = express()
-app.listen(3000);
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/index.html');
+});
 
+io.on('connection', function(socket){
 
-app.use('/', express.static('.'));
+    socket.on('text', function (data) {
+        // console.log(data);
+        history.push(data);
+        // console.log(history)
+    })
+
+});
+
+http.listen(3000, function(){
+    console.log('listening on port 3000');
+});
+
+listAnalyzer = function (list) {
+    var deletions = 0
+    for(var i = 0; i < list.length; i++) {
+        try {
+            if(list[i+1].length < list[i]){
+                deletions += 1;
+            }
+        } catch (e){
+            throw e;
+        }
+    }
+    console.log("deletions : "+ deletions);
+
+}
+
 
