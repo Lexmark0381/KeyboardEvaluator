@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Keyboard Evaluator</title>
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+
 
 </head>
 <script>
@@ -23,20 +25,28 @@
 
     }
 </script>
+<style>
+
+
+</style>
 <body>
 <div class="container" style="padding-top: 50px;">
-    <div class="row">
-        <h1 class="mx-auto">Keyboard Evaluator</h1>
-    </div>
+    <div class="half">
+        <div class="row full">
+            <h1 class="mx-auto">Keyboard Evaluator</h1>
+        </div>
 
-    <div class="row mt-3">
-        <h4>
-            Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine.
-        </h4>
+        <div class="row">
+            <h4 class="col-sm-12">
+                Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine.
+            </h4>
+        </div>
     </div>
-    <div class="row mt-3">
-        <div class="form-group col-sm-12">
-            <textarea class="form-control" rows="5" id="writtenText"></textarea>
+    <div class="half">
+        <div class="row mt-3 full">
+            <div class="form-group col-sm-12">
+                <textarea class="form-control" rows="5" id="writtenText"></textarea>
+            </div>
         </div>
     </div>
 </div>
