@@ -3,6 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var DiffMatchPatch = require('diff-match-patch');
 
+
 var dmp = new DiffMatchPatch();
 
 
@@ -18,6 +19,10 @@ io.on('connection', function(socket){
         var d = dmp.diff_main(correctString, text)
         var html = dmp.diff_prettyHtml(d);
         socket.emit('HTMLdiff', html);
+    })
+
+    socket.on('timing', function (timeInMS) {
+        console.log(timeInMS);
     })
 });
 
