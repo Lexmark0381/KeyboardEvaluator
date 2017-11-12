@@ -23,20 +23,42 @@
                 firstPress = false;
                 timerStart = (new Date()).getTime();
             }
-            if (this.value == correctText) {
+            if (this.value === correctText) {
                 timerEnd = (new Date()).getTime();
+                var result = timerEnd-timerStart;
+                socket.emit('timing', result);
+                // alert("Success, your time in millisecond is: " + result);
+                $(".container").remove();
+                var container = $("<div>").attr({class: "container"});
+                var row = $("<div>").attr({class: "row"});
+                var content = $("<div>").attr({class: "col-sm-12"});
+                var title = $("<h1>").text("Success");
+                var span = $("<span>").text("your time in millisecond is: " + result);
 
-                socket.emit('timing', timerEnd-timerStart);
+                title.appendTo(content);
+                span.appendTo(content);
+                content.appendTo(row);
+                row.appendTo(container);
+
+                var button_reload = $("<button>").attr({class: "btn btn-primary float-right"});
+                var reload = $("<span>").attr({class: "glyphicon glyphicon-refresh mt-3", onclick: "reloadPage()"}).text("Refresh");
+
+                reload.appendTo(button_reload);
+                button_reload.appendTo(container);
+                $("body").append(container);
             }
 //            console.log(this.value);
             // history.push(this.value);
             socket.emit('userText', this.value);
-            console.log(timerStart);
         });
 
         socket.on('HTMLdiff', function(html) {
             $('#outputdiv').html(html);
         })
+    }
+
+    function reloadPage() {
+        location.reload();
     }
 
 </script>
