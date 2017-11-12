@@ -3,9 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var DiffMatchPatch = require('diff-match-patch');
 
-
 var dmp = new DiffMatchPatch();
-
 
 var correctString = "Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine."
 
@@ -21,28 +19,11 @@ io.on('connection', function(socket){
         socket.emit('HTMLdiff', html);
     })
 
-    socket.on('timing', function (timeInMS) {
-        console.log(timeInMS);
-    })
 });
 
 http.listen(3000, function(){
     console.log('listening on port 3000');
 });
 
-listAnalyzer = function (list) {
-    var deletions = 0
-    for(var i = 0; i < list.length; i++) {
-        try {
-            if(list[i+1].length < list[i]){
-                deletions += 1;
-            }
-        } catch (e){
-            throw e;
-        }
-    }
-    console.log("deletions : "+ deletions);
-
-}
 
 
