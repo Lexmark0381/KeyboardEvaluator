@@ -14,7 +14,9 @@
     var firstPress = true;
     var timerStart;
     var timerEnd;
+    var errors = 0;
     var correctText = "Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine."
+
     window.onload = function () {
         history = []
         var socket = io();
@@ -33,10 +35,14 @@
                 var row = $("<div>").attr({class: "row"});
                 var content = $("<div>").attr({class: "col-sm-12"});
                 var title = $("<h1>").text("Success");
-                var span = $("<span>").text("your time in millisecond is: " + result);
+                var span = $("<span>").text("Your time in millisecond is: " + result);
+                var span2 = $("<span>").text("Errors: " + errors);
+                var br = $("<br>");
 
                 title.appendTo(content);
                 span.appendTo(content);
+                br.appendTo(content);
+                span2.appendTo(content);
                 content.appendTo(row);
                 row.appendTo(container);
 
@@ -61,6 +67,13 @@
         location.reload();
     }
 
+    window.onkeydown = function(event) {
+        var key = event.keyCode || event.charCode;
+
+        if( key == 8 || key == 46 )
+            errors++;
+    }
+    
 </script>
 <style>
 
