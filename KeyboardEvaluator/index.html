@@ -4,26 +4,41 @@
     <meta charset="UTF-8">
     <title>Keyboard Evaluator</title>
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
-
-
 </head>
 <script>
+    var firstPress = true;
+    var timerStart;
+    var timerEnd;
+    var correctText = "Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine."
     window.onload = function () {
         history = []
-
         var socket = io();
         $('#writtenText').bind('input propertychange', function() {
+            if (firstPress) {
+                firstPress = false;
+                timerStart = (new Date()).getTime();
+            }
+            if (this.value == correctText) {
+                timerEnd = (new Date()).getTime();
+
+                socket.emit('timing', timerEnd-timerStart);
+            }
 //            console.log(this.value);
-            history.push(this.value);
+            // history.push(this.value);
+            socket.emit('userText', this.value);
+            console.log(timerStart);
         });
 
-
-
+        socket.on('HTMLdiff', function(html) {
+            $('#outputdiv').html(html);
+        })
     }
+
 </script>
 <style>
 
@@ -49,8 +64,8 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary col-sm-12" id="submitButton">Submit</button>
-
+<!--     <button class="btn btn-primary col-sm-12" id="submitButton" onclick="launch()">Submit</button>
+ -->    <div id="outputdiv" class="col-sm-12"></div>
 </div>
 </body>
 </html>
