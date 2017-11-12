@@ -6,7 +6,7 @@ var DiffMatchPatch = require('diff-match-patch');
 var dmp = new DiffMatchPatch();
 
 
-var correctString = "Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine"
+var correctString = "Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine."
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
