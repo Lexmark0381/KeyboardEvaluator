@@ -19,6 +19,11 @@ io.on('connection', function(socket){
         socket.emit('HTMLdiff', html);
     })
 
+
+    socket.on('result', function(resultObject){
+        console.log(resultObject);
+    })
+
 });
 
 http.listen(3000, function(){
