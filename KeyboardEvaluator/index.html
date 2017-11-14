@@ -26,9 +26,18 @@
                 timerStart = (new Date()).getTime();
             }
             if (this.value === correctText) {
+                var resultObject;
+                var mac = $("#physical").prop("checked");
+                if (mac) {
+                    resultObject['device'] = "mac"
+                } else {
+                    resultObject['device'] = "android"
+                }
                 timerEnd = (new Date()).getTime();
-                var result = timerEnd-timerStart;
-                socket.emit('timing', result);
+                var userMS = timerEnd-timerStart;
+                resultObject['timing'] = userMS;
+                resultObject['errors'] = errors;
+                socket.emit('result', resultObject);
                 // alert("Success, your time in millisecond is: " + result);
                 $(".container").remove();
                 var container = $("<div>").attr({class: "container"});
@@ -85,13 +94,31 @@
         <div class="row full">
             <h1 class="mx-auto">Keyboard Evaluator</h1>
         </div>
+        <div class="row">
+    <fieldset class="form-group">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="optionsRadios" id="physical" value="physical" checked>
+            Mac
+          </label>
+        </div>
+        <div class="form-check">
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="optionsRadios" id="virtual" value="virtual">
+            Telephone
+          </label>
+    </fieldset>
+    </div>
 
+</form>
+        </div>
         <div class="row">
             <h4 class="col-sm-12">
                 Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine.
             </h4>
         </div>
     </div>
+
     <div class="half">
         <div class="row mt-3 full">
             <div class="form-group col-sm-12">
