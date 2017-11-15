@@ -5,9 +5,12 @@
     <title>Keyboard Evaluator</title>
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
 </head>
 <script>
@@ -20,21 +23,26 @@
     window.onload = function () {
         history = []
         var socket = io();
-        $('#writtenText').bind('input propertychange', function() {
+        $('#writtenText').bind('input propertychange', function () {
+            console.log('hi')
             if (firstPress) {
                 firstPress = false;
                 timerStart = (new Date()).getTime();
             }
             if (this.value === correctText) {
-                var resultObject;
+                var resultObject = {
+                    "device" : null,
+                    "timing" : null,
+                    "errors" : null
+                };
                 var mac = $("#physical").prop("checked");
                 if (mac) {
-                    resultObject['device'] = "mac"
+                    resultObject["device"] = "mac"
                 } else {
-                    resultObject['device'] = "android"
+                    resultObject["device"] = "android"
                 }
                 timerEnd = (new Date()).getTime();
-                var userMS = timerEnd-timerStart;
+                var userMS = timerEnd - timerStart;
                 resultObject['timing'] = userMS;
                 resultObject['errors'] = errors;
                 socket.emit('result', resultObject);
@@ -44,7 +52,7 @@
                 var row = $("<div>").attr({class: "row"});
                 var content = $("<div>").attr({class: "col-sm-12"});
                 var title = $("<h1>").text("Success");
-                var span = $("<span>").text("Your time in millisecond is: " + result);
+                var span = $("<span>").text("Your time in millisecond is: " + userMS    );
                 var span2 = $("<span>").text("Errors: " + errors);
                 var br = $("<br>");
 
@@ -56,7 +64,10 @@
                 row.appendTo(container);
 
                 var button_reload = $("<button>").attr({class: "btn btn-primary float-right"});
-                var reload = $("<span>").attr({class: "glyphicon glyphicon-refresh mt-3", onclick: "reloadPage()"}).text("Refresh");
+                var reload = $("<span>").attr({
+                    class: "glyphicon glyphicon-refresh mt-3",
+                    onclick: "reloadPage()"
+                }).text("Refresh");
 
                 reload.appendTo(button_reload);
                 button_reload.appendTo(container);
@@ -67,7 +78,7 @@
             socket.emit('userText', this.value);
         });
 
-        socket.on('HTMLdiff', function(html) {
+        socket.on('HTMLdiff', function (html) {
             $('#outputdiv').html(html);
         })
     }
@@ -76,13 +87,13 @@
         location.reload();
     }
 
-    window.onkeydown = function(event) {
+    window.onkeydown = function (event) {
         var key = event.keyCode || event.charCode;
 
-        if( key == 8 || key == 46 )
+        if (key == 8 || key == 46)
             errors++;
     }
-    
+
 </script>
 <style>
 
@@ -95,39 +106,42 @@
             <h1 class="mx-auto">Keyboard Evaluator</h1>
         </div>
         <div class="row">
-    <fieldset class="form-group">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optionsRadios" id="physical" value="physical" checked>
-            Mac
-          </label>
+            <fieldset class="form-group">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionsRadios" id="physical" value="physical"
+                               checked>
+                        Mac
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionsRadios" id="virtual" value="virtual">
+                        Telephone
+                    </label>
+            </fieldset>
         </div>
-        <div class="form-check">
-        <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optionsRadios" id="virtual" value="virtual">
-            Telephone
-          </label>
-    </fieldset>
-    </div>
 
-</form>
-        </div>
-        <div class="row">
-            <h4 class="col-sm-12">
-                Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine.
-            </h4>
-        </div>
+        </form>
+    </div>
+    <div class="row">
+        <h4 class="col-sm-12">
+            Augusta Ada King-Noel, Countess of Lovelace was an English mathematician and writer, chiefly known for her
+            work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine.
+        </h4>
     </div>
 
     <div class="half">
         <div class="row mt-3 full">
             <div class="form-group col-sm-12">
-                <textarea class="form-control" rows="5" id="writtenText"></textarea>
+                <textarea class="form-control" rows="5" id="writtenText"  style="font-size: 25px;"></textarea>
             </div>
         </div>
     </div>
-<!--     <button class="btn btn-primary col-sm-12" id="submitButton" onclick="launch()">Submit</button>
- -->    <div id="outputdiv" class="col-sm-12"></div>
+
+    <div id="outputdiv" class="col-sm-12" style="font-size: 30px;"></div>
 </div>
+</div>
+
 </body>
 </html>
